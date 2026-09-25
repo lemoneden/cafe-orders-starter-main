@@ -1,0 +1,13 @@
+{
+  "name": "cafe-orders",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "vite": "^5.4.8"
+  }
+}
