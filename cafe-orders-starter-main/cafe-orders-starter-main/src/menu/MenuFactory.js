@@ -12,10 +12,25 @@
  */
 export class MenuFactory {
   static create(type, data) {
-    throw new Error('Задача 2: MenuFactory.create ещё не реализован');
+    // throw new Error('Задача 2: MenuFactory.create ещё не реализован');
+    switch (type) {
+      case 'drink':
+        return new Drink(data.name, data.price, data.size)
+      case 'dessert':
+        return new Dessert(data.name, data.price, data.isVegan)
+      default:
+        throw new Error(`Неизвестный тип позиции: ${type}`)
+    }
   }
 
   static createMenu(list) {
-    throw new Error('Задача 2: MenuFactory.createMenu ещё не реализован');
+    // throw new Error('Задача 2: MenuFactory.createMenu ещё не реализован')
+    // drink - latte - 100 - M
+    const menuData = list.reduce((acc, item) => {
+      const { type, ...rest } = item
+      acc.push(MenuFactory.create(type, { ...rest }))
+      return acc
+    }, [])
+    return menuData
   }
 }

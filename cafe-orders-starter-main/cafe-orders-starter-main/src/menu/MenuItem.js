@@ -17,7 +17,49 @@
  * describe()     возвращает строку вида «Чизкейк — 250 руб.»
  */
 export class MenuItem {
+  #name
+  #basePrice
+
   constructor(name, basePrice) {
-    throw new Error('Задача 1: класс MenuItem ещё не реализован');
+    if (new.target === MenuItem)
+      throw new Error('Задача 1: класс MenuItem ещё не реализован')
+    this.name = name
+    this.basePrice = basePrice
+  }
+
+  get name() {
+    return this.#name
+  }
+
+  set name(value) {
+    if (typeof value !== 'string' || value.trim().length < 0) {
+      throw new Error('Имя должно быть не пустой строкой!')
+    }
+    this.#name = value.trim()
+  }
+
+  get basePrice() {
+    return this.#basePrice
+  }
+
+  set basePricege(value) {
+    if (!Number.isInteger(value) || value <= 0) {
+      throw new Error('Конечное число больше нуля!')
+    }
+    this.#basePrice = value
+  }
+
+  get price() {
+    return this.#basePrice
+  }
+
+  getCategory() {
+    throw new Error(
+      `Класс ${this.constructor.name} должен реализовывать метод getCategory`,
+    )
+  }
+
+  describe() {
+    return `${this.#name} - ${this.price} руб.`
   }
 }

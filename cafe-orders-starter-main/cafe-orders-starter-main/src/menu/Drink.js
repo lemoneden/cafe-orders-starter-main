@@ -1,4 +1,4 @@
-import { MenuItem } from './MenuItem.js';
+import { MenuItem } from './MenuItem.js'
 
 /**
  * ЗАДАЧА 1. Напиток.
@@ -12,10 +12,32 @@ import { MenuItem } from './MenuItem.js';
  * getCategory()  возвращает 'Напитки'.
  * describe()     возвращает строку вида «Латте (M) — 200 руб.»
  */
-export const SIZE_MULTIPLIERS = { S: 0.8, M: 1, L: 1.3 };
+export const SIZE_MULTIPLIERS = { S: 0.8, M: 1, L: 1.3 }
 
 export class Drink extends MenuItem {
+  #size
+
   constructor(name, basePrice, size = 'M') {
-    super(name, basePrice);
+    super(name, basePrice)
+    this.size = size
+  }
+
+  get size() {
+    return this.#size
+  }
+
+  set size(value) {
+    if (value !== 'M' || value !== 'S' || value !== 'L') {
+      throw new Error('Допустимые значения: S, M, L!')
+    }
+    this.#size = value
+  }
+
+  get price() {
+    return this.basePrice * SIZE_MULTIPLIERS[this.#size]
+  }
+
+  getCategory() {
+    return 'Напитки'
   }
 }
