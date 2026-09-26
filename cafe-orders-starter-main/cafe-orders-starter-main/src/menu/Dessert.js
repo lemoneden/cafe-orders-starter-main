@@ -1,4 +1,4 @@
-import { MenuItem } from './MenuItem.js';
+import { MenuItem } from './MenuItem.js'
 
 /**
  * ЗАДАЧА 1. Десерт.
@@ -11,7 +11,18 @@ import { MenuItem } from './MenuItem.js';
  *                для обычного -- «Чизкейк — 250 руб.»
  */
 export class Dessert extends MenuItem {
+  #isVegan
+
   constructor(name, basePrice, isVegan = false) {
-    super(name, basePrice);
+    super(name, basePrice)
+    this.isVegan = isVegan
+  }
+
+  get isVegan() {
+    return this.#isVegan
+  }
+
+  getCategory() {
+    return 'Десерты'
   }
 }
