@@ -37,6 +37,14 @@ export class Drink extends MenuItem {
     return this.basePrice * SIZE_MULTIPLIERS[this.#size]
   }
 
+  get name() {
+    return `${this.name} (${this.#size})`
+  }
+
+  set name(value) {
+    this.name = value
+  }
+
   getCategory() {
     return 'Напитки'
   }
