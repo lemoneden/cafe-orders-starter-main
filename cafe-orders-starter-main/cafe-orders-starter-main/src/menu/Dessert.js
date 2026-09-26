@@ -22,6 +22,14 @@ export class Dessert extends MenuItem {
     return this.#isVegan
   }
 
+  get name() {
+    return `${this.name} (${this.#isVegan})`
+  }
+
+  set name(value) {
+    this.name = value
+  }
+
   getCategory() {
     return 'Десерты'
   }
