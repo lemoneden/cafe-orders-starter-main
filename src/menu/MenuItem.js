@@ -42,7 +42,7 @@ export class MenuItem {
     return this.#basePrice
   }
 
-  set basePricege(value) {
+  set basePrice(value) {
     if (!Number.isInteger(value) || value <= 0) {
       throw new Error('Конечное число больше нуля!')
     }

@@ -27,25 +27,31 @@ export class Drink extends MenuItem {
   }
 
   set size(value) {
-    if (value !== 'M' || value !== 'S' || value !== 'L') {
-      throw new Error('Допустимые значения: S, M, L!')
+    if (!Object.hasOwn(SIZE_MULTIPLIERS, value)) {
+      throw new Error(
+        `Допустимые значения: ${Object.keys(SIZE_MULTIPLIERS).join(', ')}!`,
+      )
     }
     this.#size = value
   }
 
   get price() {
-    return this.basePrice * SIZE_MULTIPLIERS[this.#size]
+    return Math.round(this.basePrice * SIZE_MULTIPLIERS[this.#size])
   }
 
-  get name() {
-    return `${this.name} (${this.#size})`
-  }
+  // get name() {
+  //   return `${this.name} (${this.#size})`
+  // }
 
-  set name(value) {
-    this.name = value
-  }
+  // set name(value) {
+  //   this.name = value
+  // }
 
   getCategory() {
     return 'Напитки'
+  }
+
+  describe() {
+    return `${super.name} (${this.#size}) — ${this.price} руб.`
   }
 }

@@ -1,3 +1,6 @@
+import { Drink } from './Drink.js'
+import { Dessert } from './Dessert.js'
+
 /**
  * ЗАДАЧА 2. Фабрика позиций меню.
  *
@@ -28,7 +31,7 @@ export class MenuFactory {
     // drink - latte - 100 - M
     const menuData = list.reduce((acc, item) => {
       const { type, ...rest } = item
-      acc.push(MenuFactory.create(type, { ...rest }))
+      acc.push(MenuFactory.create(type, rest))
       return acc
     }, [])
     return menuData

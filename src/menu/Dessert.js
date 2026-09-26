@@ -15,22 +15,27 @@ export class Dessert extends MenuItem {
 
   constructor(name, basePrice, isVegan = false) {
     super(name, basePrice)
-    this.isVegan = isVegan
+    this.#isVegan = isVegan
   }
 
   get isVegan() {
     return this.#isVegan
   }
 
-  get name() {
-    return `${this.name} (${this.#isVegan})`
-  }
+  // get name() {
+  //   return `${this.name} (${this.#isVegan})`
+  // }
 
-  set name(value) {
-    this.name = value
-  }
+  // set name(value) {
+  //   this.name = value
+  // }
 
   getCategory() {
     return 'Десерты'
+  }
+
+  describe() {
+    const veganMark = this.#isVegan ? ' (веган)' : ''
+    return `${this.name}${veganMark} — ${this.price} руб.`
   }
 }
