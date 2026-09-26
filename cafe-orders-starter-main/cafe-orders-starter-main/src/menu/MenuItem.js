@@ -32,7 +32,7 @@ export class MenuItem {
   }
 
   set name(value) {
-    if (typeof value !== 'string' || value.trim().length < 0) {
+    if (typeof value !== 'string' || value.trim().length <= 0) {
       throw new Error('Имя должно быть не пустой строкой!')
     }
     this.#name = value.trim()
