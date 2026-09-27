@@ -1,7 +1,7 @@
-import { EventEmitter } from '../core/EventEmitter.js';
-import { Logger } from '../core/Logger.js';
-import { Order } from './Order.js';
-import { TRANSITIONS, ORDER_STATUS_LABELS } from './statuses.js';
+import { EventEmitter } from '../core/EventEmitter.js'
+import { Logger } from '../core/Logger.js'
+import { Order } from './Order.js'
+import { TRANSITIONS, ORDER_STATUS_LABELS } from './statuses.js'
 
 /**
  * ЗАДАЧА 3.1. Сервис заказов.
@@ -31,21 +31,71 @@ import { TRANSITIONS, ORDER_STATUS_LABELS } from './statuses.js';
  *                     Изменение этого массива не должно влиять на сервис.
  */
 export class OrderService extends EventEmitter {
+  #orders = new Map()
+
+  //   Map {
+  //   1 => Order { #id: 1, #lines: [...] },
+  //   2 => Order { #id: 2, #lines: [...] },
+  //   3 => Order { #id: 3, #lines: [...] }
+  //    }
+
   createOrder(order) {
-    throw new Error('Задача 3: OrderService.createOrder ещё не реализован');
+    if (!(order instanceof Order)) {
+      throw new Error('order должен быть экземпляром Order')
+    }
+
+    if (order.itemsCount === 0) {
+      throw new Error('Пустой заказ оформить нельзя')
+    }
+
+    if (this.#orders.has(order.id)) {
+      throw new Error('Такой заказ уже оформлен')
+    }
+
+    this.#orders.set(order.id, { order, status: 'new' })
+
+    this.emit('orderCreated', { order })
+
+    this.log(`Создан заказ: ${order.id}`)
   }
 
   changeStatus(orderId, nextStatus) {
-    throw new Error('Задача 3: OrderService.changeStatus ещё не реализован');
+    if (!this.#orders.has(orderId)) {
+      throw new Error(`Неизвестный заказ: ${orderId}`)
+    }
+
+    const entry = this.#orders.get(orderId)
+    const currentStatus = entry.status
+
+    if (!TRANSITIONS[currentStatus].includes(nextStatus)) {
+      throw new Error(`Переход ${currentStatus} в ${nextStatus} невозможен`)
+    }
+
+    entry.status = nextStatus
+
+    this.emit('statusChanged', {
+      order: entry.order,
+      from: currentStatus,
+      to: nextStatus,
+    })
+
+    this.log(`Заказ ${orderId} переходит в ${nextStatus}`)
   }
 
+  // ? - безопасное обращение к свойству или методу, не рискуя получить TypeError
+  // если вернет undefined - сработает ?? и вернет null
   getStatus(orderId) {
-    throw new Error('Задача 3: OrderService.getStatus ещё не реализован');
+    return this.#orders.get(orderId)?.status ?? null
   }
 
   getOrders() {
-    throw new Error('Задача 3: OrderService.getOrders ещё не реализован');
+    // копия #orders но с другой ссылкой
+    // исходный #orders не изменяется, если изменить этот
+    return [...this.#orders.values()].map(({ order, status }) => ({
+      order,
+      status,
+    }))
   }
 }
 
-Object.assign(OrderService.prototype, Logger);
+Object.assign(OrderService.prototype, Logger)
